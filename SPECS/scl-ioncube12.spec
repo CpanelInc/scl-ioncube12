@@ -17,7 +17,7 @@ Vendor:  cPanel, Inc.
 Summary: v12 Loader for ionCube-encoded PHP files
 Version: 12.0.1
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4572 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 License: Redistributable
 Group:   Development/Languages
@@ -26,7 +26,7 @@ URL:     http://www.ioncube.com/loaders.php
 # 1. See `perldoc find-latest-version` for info on the tarball.
 # 2. The archive contains the license file, so no need to have it as a
 #    separate source file.
-Source: ioncube_loaders_lin_x86-64_v12.tar.gz
+Source: ioncube_loaders_lin_x86-64.tar.gz
 
 BuildRequires: scl-utils-build
 BuildRequires: %{?scl_prefix}scldevel
@@ -52,7 +52,7 @@ The v12 ionCube Loader enables use of ionCube-encoded PHP files running
 under PHP %{php_version}.
 
 %prep
-%setup -q -n linux_x86_64
+%setup -q -n ioncube
 
 %build
 # Nothing to do here, since it's a binary distribution.
@@ -60,17 +60,15 @@ under PHP %{php_version}.
 %install
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf %{buildroot}
 
-%define full_php_version %{php_version}.0
-
 # The module itself
 install -d -m 755 $RPM_BUILD_ROOT%{php_extdir}
-install -m 755 %{full_php_version}/ioncube_loader_%{version}.so $RPM_BUILD_ROOT%{php_extdir}
+install -m 755 ioncube_loader_lin_%{php_version}.so $RPM_BUILD_ROOT%{php_extdir}
 
 # The ini snippet
 install -d -m 755 $RPM_BUILD_ROOT%{php_inidir}
 cat > $RPM_BUILD_ROOT%{php_inidir}/%{inifile} <<EOF
 ; Enable v12 IonCube Loader extension module
-zend_extension="%{php_extdir}/ioncube_loader_%{version}.so"
+zend_extension="%{php_extdir}/ioncube_loader_lin_%{php_version}.so"
 EOF
 
 %clean
@@ -80,9 +78,12 @@ EOF
 %defattr(-,root,root,-)
 %doc LICENSE.txt README.txt
 %config(noreplace) %{php_inidir}/%{inifile}
-%{php_extdir}/ioncube_loader_%{version}.so
+%{php_extdir}/ioncube_loader_lin_%{php_version}.so
 
 %changelog
+* Mon Aug 15 2022 Brian Mendoza <brian.mendoza@cpanel.net> - 12.0.1-2
+- ZC-10213: Update find-latest-version script
+
 * Fri Aug 12 2022 Brian Mendoza <brian.mendoza@cpanel.net> - 12.0.1-1
 - ZC-10213: Create package
 

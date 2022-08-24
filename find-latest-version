@@ -30,13 +30,11 @@ sub _get_required {
         die "Could not GET apache dist page ($res->{status} $res->{reason})\n";
     }
 
-    my ( $version, $url ) = _scrape_page( 'Linux 64-bit', $res->{content} );
+    my ( $version, $url ) = _scrape_page( 'Linux (64 bits)', $res->{content} );
 
     my $ridx = rindex( $url, '/' );
     die "Unable to determine the tarball name from “$url”\n" if ( $ridx < 0 );
     my $name = substr( $url, $ridx + 1 );
-    #TODO: This URL is going to change when they finally publish version 12
-    $url = "https://www.ioncube.com" . $url;
 
     return ( $version, $url, $name );
 }
