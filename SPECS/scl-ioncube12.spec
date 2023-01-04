@@ -15,7 +15,7 @@
 Name:    %{?scl_prefix}php-ioncube12
 Vendor:  cPanel, Inc.
 Summary: v12 Loader for ionCube-encoded PHP files
-Version: 12.0.4
+Version: 12.0.5
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4572 for more details
 %define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
@@ -81,6 +81,9 @@ EOF
 %{php_extdir}/ioncube_loader_lin_%{php_version}.so
 
 %changelog
+* Tue Dec 27 2022 Cory McIntire <cory@cpanel.net> - 12.0.5-1
+- EA-11120: Update scl-ioncube12 from v12.0.4 to v12.0.5
+
 * Mon Dec 12 2022 Cory McIntire <cory@cpanel.net> - 12.0.4-1
 - EA-11094: Update scl-ioncube12 from v12.0.3 to v12.0.4
 
